@@ -43,7 +43,7 @@ module TweetButton
   
   def options_to_data_params(opts)
     params = {}
-    opts.each {|k, v| params["data-#{k}"] = v}
+    opts.reject {|k,v| v.nil? }.each {|k, v| params["data-#{k}"] = v}
     
     # Make sure the CSS class is there
     params['class'] = 'twitter-share-button'
@@ -52,7 +52,7 @@ module TweetButton
   
   # I'm pretty sure this is in the stdlib or Rails somewhere.  Too lazy to figure it out now.
   def options_to_query_string(opts)
-    opts.map{|k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v)}"}.join("&")
+    opts.reject {|k,v| v.nil? }.map{|k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v)}"}.join("&")
   end
   
   def html_safe_string(str)
